@@ -28,29 +28,31 @@ class Tree
     @root = root
   end
 
-  def build_tree(array=[])
-    binding.pry
-    array = @array.uniq.sort 
+  def build_tree(array=[], start_arr=0, end_arr=0, count=0)
+    return nil if start_arr > end_arr 
+    array = @array.uniq.sort if count == 0
+    count += 1
     start_arr = 0
     end_arr = array.length - 1
-    return nil if start_arr > end_arr 
     mid_arr = (start_arr + end_arr) / 2
     root = Node.new(array[mid_arr])
-    root.left_child = build_tree(array[start_arr..mid_arr-1])
-    root.right_child = build_tree(array[mid_arr+1..end_arr])
-    
+    root.left_child = build_tree(array[start_arr.. mid_arr-1], start_arr, mid_arr-1, count)
+    root.right_child = build_tree(array[mid_arr+1.. end_arr], mid_arr+1, end_arr, count)
     root(root)
   end
 
-  def print_tree
-    @root
+  def pretty_print(node = @root, prefix = '', is_left = true)
+    pretty_print(node.right_child, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_child
+    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.value}"
+    pretty_print(node.left_child, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left_child
   end
+
 end
 
 my_tree = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 
 my_tree.build_tree
 
-p my_tree.print_tree
+my_tree.pretty_print
 
 
