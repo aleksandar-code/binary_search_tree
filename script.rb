@@ -28,7 +28,7 @@ class Tree
     @root = root
   end
 
-  def build_tree(array=[], start_arr=0, end_arr=0, count=0)
+  def build_tree(array = [], start_arr = 0, end_arr = 0, count = 0)
     return nil if start_arr > end_arr 
     array = @array.uniq.sort if count == 0
     count += 1
@@ -49,35 +49,44 @@ class Tree
 # insert method 
 # i want to take the root and do a depth first search compare current_root and value
 # if current_root > value then value compare to the left child
-  def insert(value, root=nil, count=0, inserted=false)
+  def insert(value, root = nil, count = 0, inserted = false)
+    binding.pry
     root = @root if count == 0 
     count += 1
     return nil if inserted
     inserted = false
     if root.value > value
-      root = root.left_child
       if root.left_child == nil
         root.left_child = Node.new(value)
         inserted = true
       end
+      root = root.left_child
     else
-      root = root.right_child
       if root.right_child == nil
         root.right_child = Node.new(value)
         inserted = true
       end
+      root = root.right_child
     end
     insert(value, root, count, inserted)
   end
+
+  def delete 
+    
+  end
 end
 
-my_tree = Tree.new([1,2,3,4,5,6,7,8,9,10])
+my_tree = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 
 my_tree.build_tree
 
 
 
 my_tree.insert(11)
+my_tree.insert(0)
+
+my_tree.insert(100)
+
 
 my_tree.pretty_print
 
