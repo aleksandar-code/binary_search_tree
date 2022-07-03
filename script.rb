@@ -69,9 +69,37 @@ class Tree
     end
     insert(value, root, inserted)
   end
+# There are 3 cases 
+# 1. We delete a leaf in the tree
+# 2. the node has 1 child 
+# 3. the node has 2 child
+  def delete(value, root = nil, deleted = false)
+    root = @root if root == nil 
+    return nil if deleted
+    deleted = false
+    if root.value > value 
+      if root.left_child.value == value
+        root.left_child = nil if leaf(root.left_child)
+        deleted = true
+      else 
+        root = root.left_child
+      end
+    else 
+      if root.right_child.value == value 
+        root.right_child = nil if leaf(root.right_child)
+        deleted = true 
+      else
+        root = root.right_child
+      end
+    end
 
-  def delete(value, root = nil, count = 0, deleted = false)
-    
+      
+    delete(value, root, deleted)
+  end
+
+  def leaf(root) 
+    return true if root.left_child == nil && root.right_child == nil
+    return false
   end
 end
 
@@ -86,6 +114,7 @@ my_tree.insert(0)
 
 my_tree.insert(100)
 
+my_tree.delete(11)
 
 my_tree.pretty_print
 
