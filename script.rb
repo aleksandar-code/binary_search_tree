@@ -49,10 +49,9 @@ class Tree
 # insert method 
 # i want to take the root and do a depth first search compare current_root and value
 # if current_root > value then value compare to the left child
-  def insert(value, root = nil, count = 0, inserted = false)
-    binding.pry
-    root = @root if count == 0 
-    count += 1
+  def insert(value, root = nil, inserted = false)
+    # binding.pry
+    root = @root if root == nil 
     return nil if inserted
     inserted = false
     if root.value > value
@@ -68,10 +67,10 @@ class Tree
       end
       root = root.right_child
     end
-    insert(value, root, count, inserted)
+    insert(value, root, inserted)
   end
 
-  def delete 
+  def delete(value, root = nil, count = 0, deleted = false)
     
   end
 end
