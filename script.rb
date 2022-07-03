@@ -73,13 +73,15 @@ class Tree
 # 1. We delete a leaf in the tree
 # 2. the node has 1 child 
 # 3. the node has 2 child
-  def delete(value, root = nil, deleted = false)
+  def delete(value, root = nil, deleted = false, not_found = false)
     root = @root if root == nil 
-    return nil if deleted
+    return nil if deleted || not_found || @root.value == value
     deleted = false
     if root.value > value 
       if root.left_child.value == value
         root.left_child = nil if leaf(root.left_child)
+        root.left_child = root.left_child.left_child if single_child(root.right_child) && root.left_child.left_child != nil
+        root.left_child = root.left_child.right_child if single_child(root.right_child) && root.left_child.right_child != nil
         deleted = true
       else 
         root = root.left_child
@@ -87,18 +89,26 @@ class Tree
     else 
       if root.right_child.value == value 
         root.right_child = nil if leaf(root.right_child)
-        deleted = true 
+        root.right_child = root.right_child.right_child if single_child(root.right_child) && root.right_child.right_child != nil
+        root.right_child = root.right_child.left_child if single_child(root.right_child) && root.right_child.left_child != nil
+        deleted = true
+
       else
         root = root.right_child
       end
     end
 
-      
-    delete(value, root, deleted)
+    not_found = true if leaf(root)
+    delete(value, root, deleted, not_found)
   end
 
   def leaf(root) 
     return true if root.left_child == nil && root.right_child == nil
+    return false
+  end
+
+  def single_child(root)
+    return true if root.right_child == nil || root.left_child == nil
     return false
   end
 end
@@ -110,11 +120,7 @@ my_tree.build_tree
 
 
 my_tree.insert(11)
-my_tree.insert(0)
-
-my_tree.insert(100)
-
-my_tree.delete(11)
-
+my_tree.pretty_print
+my_tree.delete(5)
 my_tree.pretty_print
 
