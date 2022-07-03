@@ -50,7 +50,6 @@ class Tree
 # i want to take the root and do a depth first search compare current_root and value
 # if current_root > value then value compare to the left child
   def insert(value, root = nil, inserted = false)
-    # binding.pry
     root = @root if root == nil 
     return nil if inserted
     inserted = false
@@ -79,18 +78,29 @@ class Tree
     deleted = false
     if root.value > value 
       if root.left_child.value == value
-        root.left_child = nil if leaf(root.left_child)
-        root.left_child = root.left_child.left_child if single_child(root.right_child) && root.left_child.left_child != nil
-        root.left_child = root.left_child.right_child if single_child(root.right_child) && root.left_child.right_child != nil
+        if leaf(root.left_child)
+         root.left_child = nil 
+        elsif single_child(root.left_child) && root.left_child.left_child != nil
+         root.left_child = root.left_child.left_child 
+        elsif single_child(root.left_child) && root.left_child.right_child != nil
+         root.left_child = root.left_child.right_child 
+        end
+
+
+
         deleted = true
       else 
         root = root.left_child
       end
     else 
       if root.right_child.value == value 
-        root.right_child = nil if leaf(root.right_child)
-        root.right_child = root.right_child.right_child if single_child(root.right_child) && root.right_child.right_child != nil
-        root.right_child = root.right_child.left_child if single_child(root.right_child) && root.right_child.left_child != nil
+        if leaf(root.right_child)
+          root.right_child = nil 
+        elsif single_child(root.right_child) && root.right_child.right_child != nil
+        root.right_child = root.right_child.right_child 
+        elsif single_child(root.right_child) && root.right_child.left_child != nil
+         root.right_child = root.right_child.left_child 
+        end
         deleted = true
 
       else
@@ -111,6 +121,11 @@ class Tree
     return true if root.right_child == nil || root.left_child == nil
     return false
   end
+
+  def two_childs(root) 
+    return true if root.left_child != nil && root.right_child != nil
+    return false
+  end
 end
 
 my_tree = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
@@ -121,6 +136,6 @@ my_tree.build_tree
 
 my_tree.insert(11)
 my_tree.pretty_print
-my_tree.delete(5)
+my_tree.delete(11)
 my_tree.pretty_print
 
