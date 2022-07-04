@@ -135,9 +135,10 @@ class Tree
        count += 1
        root = root.left_child
        if leaf(root)
+        delete(root.value, @root, deleted, not_found, count)
         @root.value = root.value 
-        root = nil
         deleted = true 
+        root = nil
        end
       end
       
@@ -167,6 +168,6 @@ my_tree = Tree.new([30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,
 
 my_tree.build_tree
 my_tree.pretty_print
-my_tree.delete(15)
+my_tree.delete(11)
 my_tree.pretty_print
 
