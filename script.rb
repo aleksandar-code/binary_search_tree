@@ -138,7 +138,7 @@ class Tree
           end
           
         end
-        root = root.left_child
+        root = root.left_child if deleted == false
       else 
         if root.right_child.value == value 
           if leaf(root.right_child)
@@ -197,7 +197,7 @@ class Tree
           
 
         end
-        root = root.right_child
+        root = root.right_child if deleted == false
       end
     end
 
