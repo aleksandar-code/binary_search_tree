@@ -126,8 +126,13 @@ class Tree
       end
     end
     if @root.value == value && two_childs(@root)
-      @root.value = @root.right_child.left_child.value
-      @root.right_child.left_child = @root.right_child.left_child.right_child 
+      if leaf(@root.right_child.left_child)
+        @root.value = @root.right_child.left_child.value
+        @root.right_child.left_child = @root.right_child.left_child.right_child 
+      else 
+        @root.value = @root.right_child.left_child.left_child.value 
+        @root.right_child.left_child.left_child = nil
+      end
       deleted = true
     end
 
@@ -151,18 +156,10 @@ class Tree
   end
 end
 
-my_tree = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
+my_tree = Tree.new([20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1])
 
 my_tree.build_tree
-
-
-
-my_tree.insert(11)
 my_tree.pretty_print
-
-
-my_tree.delete(8)
-
-
+my_tree.delete(10)
 my_tree.pretty_print
 
