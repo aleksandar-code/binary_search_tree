@@ -72,7 +72,7 @@ class Tree
 # 1. We delete a leaf in the tree
 # 2. the node has 1 child 
 # 3. the node has 2 child
-  def delete(value, root = nil, deleted = false, not_found = false)
+  def delete(value, root = nil, deleted = false, not_found = false, count = 0)
   #  binding.pry
     root = @root if root == nil 
     return nil if deleted || not_found 
@@ -129,15 +129,22 @@ class Tree
       if leaf(@root.right_child.left_child)
         @root.value = @root.right_child.left_child.value
         @root.right_child.left_child = @root.right_child.left_child.right_child 
+        deleted = true
       else 
-        @root.value = @root.right_child.left_child.left_child.value 
-        @root.right_child.left_child.left_child = nil
+       root = @root.right_child.left_child if count == 0
+       count += 1
+       root = root.left_child
+       if leaf(root)
+        @root.value = root.value 
+        root = nil
+        deleted = true 
+       end
       end
-      deleted = true
+      
     end
 
-    not_found = true if leaf(root)
-    delete(value, root, deleted, not_found)
+    not_found = true if root != nil && leaf(root) 
+    delete(value, root, deleted, not_found, count)
   end
 
   def leaf(root) 
@@ -156,10 +163,10 @@ class Tree
   end
 end
 
-my_tree = Tree.new([20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1])
+my_tree = Tree.new([30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1])
 
 my_tree.build_tree
 my_tree.pretty_print
-my_tree.delete(10)
+my_tree.delete(15)
 my_tree.pretty_print
 
