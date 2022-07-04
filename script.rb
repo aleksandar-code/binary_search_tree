@@ -72,13 +72,14 @@ class Tree
 # 1. We delete a leaf in the tree
 # 2. the node has 1 child 
 # 3. the node has 2 child
-  def delete(value, root = nil, deleted = false, not_found = false, count = 0)
-  #  binding.pry
+  def delete(value, root = nil, deleted = false, not_found = false, count = 0, curr_root=0, count2=0, count3=0)
+   binding.pry
     root = @root if root == nil 
-    return nil if deleted || not_found 
+    return nil if deleted || not_found || curr_root == nil
     deleted = false
-    if @root.value != value
-      if root.value > value 
+    p root.value
+    if @root.value != value 
+      if root.value > value
         if root.left_child.value == value
           if leaf(root.left_child)
           root.left_child = nil 
@@ -86,21 +87,58 @@ class Tree
           root.left_child = root.left_child.left_child 
           elsif single_child(root.left_child) && root.left_child.right_child != nil
           root.left_child = root.left_child.right_child 
-          elsif two_childs(root.left_child)
-            if root.left_child.right_child.left_child != nil
-              root.left_child.value = root.left_child.right_child.left_child.value
-              root.left_child.right_child = root.left_child.right_child.left_child.right_child
-            else
-              root.left_child.value = root.left_child.right_child.value
-              root.left_child.right_child = root.left_child.right_child.right_child
-            end
+         
 
           end
           
           deleted = true
         else 
-          root = root.left_child
+          if @root.value == value && two_childs(@root)
+            if leaf(@root.right_child.left_child)
+              @root.value = @root.right_child.left_child.value
+              @root.right_child.left_child = @root.right_child.left_child.right_child 
+              deleted = true
+            else 
+             curr_root = @root.right_child.left_child if count == 0
+             count += 1
+             
+             if leaf(curr_root)
+              @root.value = curr_root.value + 1
+              count3 = 1
+              delete(curr_root.value, @root, deleted, not_found, count, 0, 0, count3)
+              @root.value = @root.value - 1
+              deleted = true 
+              curr_root = nil
+             else 
+              curr_root = curr_root.left_child
+             end
+            end
+            
+          elsif two_childs(root) && count3 == 0
+                  
+            if leaf(root.right_child.left_child)
+              root.value = root.right_child.left_child.value
+              root.right_child.left_child = root.right_child.left_child.right_child 
+              deleted = true
+            else 
+             curr_root = root.right_child.left_child if count2 == 0
+             count2 += 1
+             
+            
+             if leaf(curr_root)
+              delete(curr_root.value, @root, deleted, not_found, count, 0,0,count3)
+              
+              root.value = curr_root.value 
+              deleted = true 
+              curr_root = nil
+             else 
+              curr_root = curr_root.left_child
+             end
+            end
+          end
+          
         end
+        root = root.left_child
       else 
         if root.right_child.value == value 
           if leaf(root.right_child)
@@ -109,43 +147,112 @@ class Tree
           root.right_child = root.right_child.right_child 
           elsif single_child(root.right_child) && root.right_child.left_child != nil
           root.right_child = root.right_child.left_child 
-          elsif two_childs(root.right_child)
-            if root.right_child.right_child.left_child != nil
-              root.right_child.value = root.right_child.right_child.left_child.value
-              root.right_child.right_child = root.right_child.right_child.left_child.right_child
-            else 
-              root.right_child.value = root.right_child.right_child.value
-              root.right_child.right_child = root.right_child.right_child.right_child
-            end
           end
           deleted = true
 
         else
-          root = root.right_child
+          if @root.value == value && two_childs(@root)
+            if leaf(@root.right_child.left_child)
+              @root.value = @root.right_child.left_child.value
+              @root.right_child.left_child = @root.right_child.left_child.right_child 
+              deleted = true
+            else 
+             curr_root = @root.right_child.left_child if count == 0
+             count += 1
+             
+             if leaf(curr_root)
+              count3 = 1
+              delete(curr_root.value, @root, deleted, not_found, count, 0, 0, count3)
+              @root.value = curr_root.value
+              
+              deleted = true 
+              curr_root = nil
+             else 
+              curr_root = curr_root.left_child
+             end
+            end
+            
+          elsif two_childs(root) && count3 == 0
+                  
+            if leaf(root.right_child.left_child)
+              root.value = root.right_child.left_child.value
+              root.right_child.left_child = root.right_child.left_child.right_child 
+              deleted = true
+            else 
+             curr_root = root.right_child.left_child if count2 == 0
+             count2 += 1
+             
+            
+             if leaf(curr_root)
+              delete(curr_root.value, @root, deleted, not_found, count, 0,0,count3)
+              
+              root.value = curr_root.value 
+              deleted = true 
+              curr_root = nil
+             else 
+              curr_root = curr_root.left_child
+             end
+            end
+          end
+          
+
         end
+        root = root.right_child
       end
     end
+
     if @root.value == value && two_childs(@root)
       if leaf(@root.right_child.left_child)
         @root.value = @root.right_child.left_child.value
         @root.right_child.left_child = @root.right_child.left_child.right_child 
         deleted = true
       else 
-       root = @root.right_child.left_child if count == 0
+       curr_root = @root.right_child.left_child if count == 0
        count += 1
-       root = root.left_child
-       if leaf(root)
-        delete(root.value, @root, deleted, not_found, count)
-        @root.value = root.value 
+       
+       if leaf(curr_root)
+        
+        count3 = 1
+        delete(curr_root.value, @root, deleted, not_found, count, 0, 0, count3)
+        @root.value = curr_root.value
+        
         deleted = true 
-        root = nil
+        curr_root = nil
+       else 
+        curr_root = curr_root.left_child
        end
       end
       
+    elsif two_childs(root) && count3 == 0
+            
+      if leaf(root.right_child.left_child)
+        root.value = root.right_child.left_child.value
+        root.right_child.left_child = root.right_child.left_child.right_child 
+        deleted = true
+      else 
+       curr_root = root.right_child.left_child if count2 == 0
+       count2 += 1
+       
+      
+       if leaf(curr_root)
+        delete(curr_root.value, @root, deleted, not_found, count, 0,0,count3)
+        
+        root.value = curr_root.value 
+        deleted = true 
+        curr_root = nil
+       else 
+        curr_root = curr_root.left_child
+       end
+      end
     end
 
-    not_found = true if root != nil && leaf(root) 
-    delete(value, root, deleted, not_found, count)
+
+  
+
+    
+
+    not_found = true if curr_root != nil && root.nil?
+    delete(value, root, deleted, not_found, count, curr_root, count2, count3)
   end
 
   def leaf(root) 
@@ -168,6 +275,6 @@ my_tree = Tree.new([30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,
 
 my_tree.build_tree
 my_tree.pretty_print
-my_tree.delete(11)
+my_tree.delete(15)
 my_tree.pretty_print
 
