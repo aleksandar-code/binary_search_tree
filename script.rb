@@ -72,10 +72,15 @@ class Tree
 # 1. We delete a leaf in the tree
 # 2. the node has 1 child 
 # 3. the node has 2 child
-  def delete(value)
-    return nil if deleted 
-    deleted = false
+  def delete(value, root = nil, deleted = false, not_found = false)
+    return nil if deleted || not_found
     
+    
+
+
+
+    not_found = true if deleted == false && value.nil?
+    delete(value, root, deleted)
   end
 
 end
