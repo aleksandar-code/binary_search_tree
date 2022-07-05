@@ -2,12 +2,12 @@
 require 'pry-byebug'
 # Node class
 class Node
-  def initialize(value = nil, left_child = nil, right_child = nil)
+  def initialize(value = nil, left = nil, right = nil)
     @value = value
-    @left_child = left_child
-    @right_child = right_child
+    @left = left_
+    @right = right
   end
-  attr_accessor :value, :left_child, :right_child
+  attr_accessor :value, :left, :right
 end
 
 # Tree class
@@ -36,15 +36,15 @@ class Tree
     end_arr = array.length - 1
     mid_arr = (start_arr + end_arr) / 2
     root = Node.new(array[mid_arr])
-    root.left_child = build_tree(array[start_arr.. mid_arr-1], start_arr, mid_arr-1, count)
-    root.right_child = build_tree(array[mid_arr+1.. end_arr], mid_arr+1, end_arr, count)
+    root.left = build_tree(array[start_arr.. mid_arr-1], start_arr, mid_arr-1, count)
+    root.right = build_tree(array[mid_arr+1.. end_arr], mid_arr+1, end_arr, count)
     root(root)
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
-    pretty_print(node.right_child, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_child
+    pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.value}"
-    pretty_print(node.left_child, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left_child
+    pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
   end
 # insert method 
 # i want to take the root and do a depth first search compare current_root and value
@@ -54,17 +54,17 @@ class Tree
     return nil if inserted
     inserted = false
     if root.value > value
-      if root.left_child == nil
-        root.left_child = Node.new(value)
+      if root.left == nil
+        root.left = Node.new(value)
         inserted = true
       end
-      root = root.left_child
+      root = root.left
     else
-      if root.right_child == nil
-        root.right_child = Node.new(value)
+      if root.right == nil
+        root.right = Node.new(value)
         inserted = true
       end
-      root = root.right_child
+      root = root.right
     end
     insert(value, root, inserted)
   end
@@ -74,21 +74,30 @@ class Tree
 # 3. the node has 2 child
   def delete(value, root = nil, deleted = false, not_found = false)
     return nil if deleted || not_found
-    
-    
+    root = @root if root.nil?
+    search_next_biggest = nil
+    if root.value > value 
+      root = root.left
+    elsif root.value < value 
+      root = root.right
+    elsif @root.value == value
+      search_next_biggest = @root.right if search_next_biggest.nil?
+    elsif root.value == value 
+
+    end
 
 
-
-    not_found = true if deleted == false && value.nil?
-    delete(value, root, deleted)
+     
+    not_found = true if root.nil?
+    delete(value, root, deleted, not_found)
   end
 
 end
 
-my_tree = Tree.new([30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1])
+my_tree = Tree.new([15,14,13,12,11,10,9,8,7,6,5,4,3,2,1])
 
 my_tree.build_tree
 my_tree.pretty_print
-my_tree.delete(7)
+my_tree.delete(4)
 my_tree.pretty_print
 
