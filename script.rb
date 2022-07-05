@@ -4,7 +4,7 @@ require 'pry-byebug'
 class Node
   def initialize(value = nil, left = nil, right = nil)
     @value = value
-    @left = left_
+    @left = left
     @right = right
   end
   attr_accessor :value, :left, :right
