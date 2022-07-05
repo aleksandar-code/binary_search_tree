@@ -29,6 +29,7 @@ class Tree
   end
 
   def build_tree(array = [], start_arr = 0, end_arr = 0, count = 0)
+    # binding.pry
     return nil if start_arr > end_arr 
     array = @array.uniq.sort if count == 0
     count += 1
@@ -77,23 +78,22 @@ class Tree
     return nil if deleted || not_found
     root = @root if root.nil?
     search_next_biggest = nil
-
-    if root.left.value > value 
-      root = root.left
-    elsif root.right.value < value 
-      root = root.right
+# implement dfs or bfs algo or binary search
+    if root.value < value 
+      delete(value, root.right, deleted, not_found) if deleted == false
+      root.right = nil if root.right.value == value
+      return
+    elsif root.value > value 
+      delete(value, root.left, deleted, not_found) if deleted == false
+      root.left = nil if root.left.value == value 
+      return 
     elsif @root.value == value
       nil
       # search_next_biggest = @root.right if search_next_biggest.nil?
-    elsif !(root.right.nil? || root.left.nil?)
-      if root.right.value == value 
-        if root.right.right.nil? && root.right.left.nil?
-          root.right = nil
-          deleted = true
-        end
-      elsif root.left.value == value 
-        if root.left.right.nil? && root.left.left.nil?
-          root.left = nil
+    else
+      if root.value == value 
+        if root.right.nil? && root.left.nil?
+          root = nil
           deleted = true
         end
       end
@@ -112,6 +112,6 @@ my_tree = Tree.new([15,14,13,12,11,10,9,8,7,6,5,4,3,2,1])
 
 my_tree.build_tree
 my_tree.pretty_print
-my_tree.delete(1)
+my_tree.delete(5)
 my_tree.pretty_print
 
