@@ -73,17 +73,31 @@ class Tree
 # 2. the node has 1 child 
 # 3. the node has 2 child
   def delete(value, root = nil, deleted = false, not_found = false)
+    binding.pry
     return nil if deleted || not_found
     root = @root if root.nil?
     search_next_biggest = nil
-    if root.value > value 
+
+    if root.left.value > value 
       root = root.left
-    elsif root.value < value 
+    elsif root.right.value < value 
       root = root.right
     elsif @root.value == value
-      search_next_biggest = @root.right if search_next_biggest.nil?
-    elsif root.value == value 
-
+      nil
+      # search_next_biggest = @root.right if search_next_biggest.nil?
+    elsif !(root.right.nil? || root.left.nil?)
+      if root.right.value == value 
+        if root.right.right.nil? && root.right.left.nil?
+          root.right = nil
+          deleted = true
+        end
+      elsif root.left.value == value 
+        if root.left.right.nil? && root.left.left.nil?
+          root.left = nil
+          deleted = true
+        end
+      end
+      
     end
 
 
@@ -98,6 +112,6 @@ my_tree = Tree.new([15,14,13,12,11,10,9,8,7,6,5,4,3,2,1])
 
 my_tree.build_tree
 my_tree.pretty_print
-my_tree.delete(4)
+my_tree.delete(1)
 my_tree.pretty_print
 
