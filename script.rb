@@ -74,7 +74,6 @@ class Tree
 # 2. the node has 1 child 
 # 3. the node has 2 child
   def delete(value, root = nil, deleted = false, not_found = false)
-    binding.pry
     return nil if deleted || not_found
     root = @root if root.nil?
     search_next_biggest = nil
@@ -112,6 +111,6 @@ my_tree = Tree.new([15,14,13,12,11,10,9,8,7,6,5,4,3,2,1])
 
 my_tree.build_tree
 my_tree.pretty_print
-my_tree.delete(5)
+my_tree.delete(7)
 my_tree.pretty_print
 
