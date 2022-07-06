@@ -73,7 +73,7 @@ class Tree
 # 1. We delete a leaf in the tree
 # 2. the node has 1 child 
 # 3. the node has 2 child
-  def delete(value, root = nil, deleted = false, not_found = false)
+  def delete(value, root = nil, deleted = false, not_found = false, search_next_biggest = false)
     return nil if deleted || not_found
     root = @root if root.nil?
     search_next_biggest = nil
@@ -88,7 +88,12 @@ class Tree
       return 
     elsif @root.value == value
       nil
-      # search_next_biggest = @root.right if search_next_biggest.nil?
+      search_next_biggest = @root.right if search_next_biggest.nil?
+      if search_next_biggest.left !== nil
+        search_next_biggest = search_next_biggest.left 
+      else
+        
+      end
     else
       if root.value == value 
         if root.right.nil? && root.left.nil?
@@ -102,7 +107,7 @@ class Tree
 
      
     not_found = true if root.nil?
-    delete(value, root, deleted, not_found)
+    delete(value, root, deleted, not_found, search_next_biggest)
   end
 
 end
