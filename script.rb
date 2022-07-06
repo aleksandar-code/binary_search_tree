@@ -122,7 +122,7 @@ class Tree
             root.left = nil
             deleted = true
           end
-          pretty_print()
+          
           if !(root.right.nil? && root.left.nil?) # 2 childs
 
           end
@@ -144,8 +144,5 @@ my_tree = Tree.new([15,14,13,12,11,10,9,8,7,6,5,4,3,2,1])
 my_tree.build_tree
 my_tree.pretty_print
 my_tree.delete(8)
-# my_tree.delete(9) can't because 10 has a child and i haven't handled that case yet.
-# my_tree.delete(11)
 my_tree.delete(9)
-
 my_tree.pretty_print
