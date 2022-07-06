@@ -73,10 +73,10 @@ class Tree
 # 1. We delete a leaf in the tree
 # 2. the node has 1 child 
 # 3. the node has 2 child
-  def delete(value, root = nil, deleted = false, not_found = false, search_next_biggest = false)
+  def delete(value, root = nil, deleted = false, not_found = false, current_root = nil)
     return nil if deleted || not_found
     root = @root if root.nil?
-    search_next_biggest = nil
+    
 # implement dfs or bfs algo or binary search
     if root.value < value 
       delete(value, root.right, deleted, not_found) if deleted == false
@@ -87,12 +87,14 @@ class Tree
       root.left = nil if root.left.value == value 
       return 
     elsif @root.value == value
-      nil
-      search_next_biggest = @root.right if search_next_biggest.nil?
-      if search_next_biggest.left !== nil
-        search_next_biggest = search_next_biggest.left 
+      # binding.pry
+      current_root = @root.right if current_root.nil?
+      if !(current_root.left.nil?)
+        current_root = current_root.left 
       else
-        
+        delete(current_root.value, @root, deleted, not_found)
+        @root.value = current_root.value
+        deleted = true
       end
     else
       if root.value == value 
@@ -107,7 +109,7 @@ class Tree
 
      
     not_found = true if root.nil?
-    delete(value, root, deleted, not_found, search_next_biggest)
+    delete(value, root, deleted, not_found, current_root)
   end
 
 end
@@ -116,5 +118,6 @@ my_tree = Tree.new([15,14,13,12,11,10,9,8,7,6,5,4,3,2,1])
 
 my_tree.build_tree
 my_tree.pretty_print
-my_tree.delete(7)
+my_tree.delete(8)
+# my_tree.delete(9) can't because 10 has a child and i haven't handled that case yet.
 my_tree.pretty_print
