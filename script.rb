@@ -76,7 +76,7 @@ class Tree
   def delete(value, root = nil, deleted = false, not_found = false, current_root = nil)
     return nil if deleted || not_found
     root = @root if root.nil?
-    
+    # binding.pry
 # implement dfs or bfs algo or binary search
     if root.value < value 
       delete(value, root.right, deleted, not_found) if deleted == false
@@ -87,25 +87,50 @@ class Tree
       root.left = nil if root.left.value == value 
       return 
     elsif @root.value == value
-      # binding.pry
+      
       current_root = @root.right if current_root.nil?
       if !(current_root.left.nil?)
         current_root = current_root.left 
       else
+        # binding.pry
+        value = current_root.value
         delete(current_root.value, @root, deleted, not_found)
-        @root.value = current_root.value
+        @root.value = value
         deleted = true
       end
     else
+      
+      
       if root.value == value 
-        if root.right.nil? && root.left.nil?
+        
+        if root.right.nil? && root.left.nil? # no child
           root = nil
           deleted = true
+        else
+          if root.value < value 
+            delete(value, root.right, deleted, not_found) if deleted == false
+          elsif root.value > value 
+            delete(value, root.left, deleted, not_found) if deleted == false
+          end
+
+          if root.left.nil? # 1 child 
+            root.value = root.right.value 
+            root.right = nil
+            deleted = true 
+          elsif root.right.nil?
+            root.value = root.left.value
+            root.left = nil
+            deleted = true
+          end
+          pretty_print()
+          if !(root.right.nil? && root.left.nil?) # 2 childs
+
+          end
+           
         end
       end
       
-    end
-
+    end 
 
      
     not_found = true if root.nil?
@@ -120,4 +145,7 @@ my_tree.build_tree
 my_tree.pretty_print
 my_tree.delete(8)
 # my_tree.delete(9) can't because 10 has a child and i haven't handled that case yet.
+# my_tree.delete(11)
+my_tree.delete(9)
+
 my_tree.pretty_print
