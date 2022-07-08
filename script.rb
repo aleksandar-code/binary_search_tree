@@ -76,8 +76,6 @@ class Tree
   def delete(value, root = nil, deleted = false, not_found = false, current_root = nil)
     return nil if deleted || not_found
     root = @root if root.nil?
-    # binding.pry
-# implement dfs or bfs algo or binary search
     if root.value < value 
       delete(value, root.right, deleted, not_found) if deleted == false
       root.right = nil if root.right.value == value
@@ -132,6 +130,10 @@ class Tree
     end 
     not_found = true if root.nil?
     delete(value, root, deleted, not_found, current_root)
+  end
+
+  def find(value)
+    
   end
 end
 
