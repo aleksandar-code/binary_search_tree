@@ -132,9 +132,21 @@ class Tree
     delete(value, root, deleted, not_found, current_root)
   end
 
-  def find(value)
-    
+  def find(value, root = false, found = false)
+    root = @root if root == false
+    if !(root.nil?) && root.value == value 
+      print "node: " 
+      p root 
+      found = true
+    end 
+      return puts "#{!(root.nil?)}" if root.nil? || found == true
+    if root.value < value
+      find(value, root.right, found) if found == false
+    elsif root.value > value
+      find(value, root.left, found) if found == false
+    end
   end
+  
 end
 
 my_tree = Tree.new([15,14,13,12,11,10,9,8,7,6,5,4,3,2,1])
@@ -144,3 +156,5 @@ my_tree.delete(8)
 my_tree.delete(4)
 my_tree.delete(10)
 my_tree.pretty_print
+
+my_tree.find(11)
