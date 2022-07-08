@@ -87,22 +87,17 @@ class Tree
       root.left = nil if root.left.value == value 
       return 
     elsif @root.value == value
-      
       current_root = @root.right if current_root.nil?
       if !(current_root.left.nil?)
         current_root = current_root.left 
       else
-        # binding.pry
         value = current_root.value
         delete(current_root.value, @root, deleted, not_found)
         @root.value = value
         deleted = true
       end
     else
-      
-      
       if root.value == value 
-        
         if root.right.nil? && root.left.nil? # no child
           root = nil
           deleted = true
@@ -112,7 +107,6 @@ class Tree
           elsif root.value > value 
             delete(value, root.left, deleted, not_found) if deleted == false
           end
-
           if root.left.nil? # 1 child 
             root.value = root.right.value 
             root.right = nil
@@ -122,27 +116,29 @@ class Tree
             root.left = nil
             deleted = true
           end
-          
           if !(root.right.nil? && root.left.nil?) # 2 childs
-
-          end
-           
+            current_root = root.right if current_root.nil?
+            if !(current_root.left.nil?)
+              current_root = current_root.left 
+            else
+              value = current_root.value
+              delete(current_root.value, root, deleted, not_found)
+              root.value = value
+              deleted = true
+            end
+          end 
         end
       end
-      
     end 
-
-     
     not_found = true if root.nil?
     delete(value, root, deleted, not_found, current_root)
   end
-
 end
 
 my_tree = Tree.new([15,14,13,12,11,10,9,8,7,6,5,4,3,2,1])
-
 my_tree.build_tree
 my_tree.pretty_print
 my_tree.delete(8)
-my_tree.delete(9)
+my_tree.delete(4)
+my_tree.delete(10)
 my_tree.pretty_print
