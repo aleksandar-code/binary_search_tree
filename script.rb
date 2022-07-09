@@ -147,14 +147,26 @@ class Tree
     end
   end
   
+  def level_order(block, queue = [], root = false) 
+    return nil if root.nil?
+    root = @root if root == false
+    queue.push(root)
+    while !(queue.empty?)
+      current_root = queue.first
+      p current_root.value
+      queue.push(current_root.left)  if !(current_root.left.nil?)
+      queue.push(current_root.right)  if !(current_root.right.nil?)
+      queue = queue[1..]
+    end
+  end
 end
 
 my_tree = Tree.new([15,14,13,12,11,10,9,8,7,6,5,4,3,2,1])
 my_tree.build_tree
 my_tree.pretty_print
-my_tree.delete(8)
-my_tree.delete(4)
-my_tree.delete(10)
-my_tree.pretty_print
 
-my_tree.find(11)
+
+
+block = lambda { |a| puts "Hello #{a}"}
+
+my_tree.level_order(block)
