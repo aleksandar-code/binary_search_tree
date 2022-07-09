@@ -153,9 +153,9 @@ class Tree
     queue.push(root)
     while !(queue.empty?)
       current_root = queue.first
-      p current_root.value
       queue.push(current_root.left)  if !(current_root.left.nil?)
       queue.push(current_root.right)  if !(current_root.right.nil?)
+      block.call(current_root.value)
       queue = queue[1..]
     end
   end
