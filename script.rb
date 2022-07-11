@@ -200,7 +200,21 @@ class Tree
     inorder(array, current_root.right, &block)
   end
 
-  
+  def postorder(array = [], current_root=false, &block)
+    if current_root.nil? && block_given?
+      return 
+    elsif current_root.nil? && !(block_given?)
+      return array
+    end
+    current_root = @root if current_root == false
+    postorder(array, current_root.left, &block)
+    postorder(array, current_root.right, &block)
+    if block_given?
+      yield(current_root)
+    else
+      array << current_root.value
+    end
+  end
 
 
 end
@@ -211,4 +225,4 @@ my_tree.pretty_print
 
 
 
-p my_tree.inorder { |n| print "#{n.value}, " }
+p my_tree.postorder { |n| print "#{n.value}, " }
