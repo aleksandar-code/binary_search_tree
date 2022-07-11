@@ -165,6 +165,24 @@ class Tree
     print "\n\n"
     return array if !(block_given?) 
   end
+
+  def preorder(array = [], current_root=false, &block)
+    if current_root.nil? && block_given?
+      return 
+    elsif current_root.nil? && !(block_given?)
+      return array
+    end
+    current_root = @root if current_root == false
+    if block_given?
+      yield(current_root)
+    else
+      array << current_root.value
+    end
+    
+    preorder(array, current_root.left, &block)
+    preorder(array, current_root.right, &block)
+  end
+
 end
 
 my_tree = Tree.new([15,14,13,12,11,10,9,8,7,6,5,4,3,2,1])
@@ -173,5 +191,4 @@ my_tree.pretty_print
 
 
 
-
-my_tree.level_order { |n| print "#{n.value}, " }
+p my_tree.preorder { |n| print "#{n.value}, " }
