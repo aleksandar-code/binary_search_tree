@@ -235,9 +235,24 @@ class Tree
 
   end
 
-  def height(value)
+  def height(value, root = false, found = false)
     # define height of this tree/subtree
+
+    if !(root.nil?) && root.value == value 
+      found = true
+    end 
+
+    root = @root if root == false
+    if root.value < value
+      depth += 1
+      height(value, root.right, found, depth) if found == false
+    elsif root.value > value
+      depth += 1
+      height(value, root.left, found, depth) if found == false
+    end
+
     
+
   end
 
 end
