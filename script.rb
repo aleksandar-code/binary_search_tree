@@ -223,7 +223,7 @@ class Tree
       found = true
     end 
 
-      return puts "depth: #{depth}" if root.nil? || found == true
+      return puts "depth of #{value}: #{depth}" if root.nil? || found == true
 
     if root.value < value
       depth += 1
@@ -291,4 +291,5 @@ my_tree.pretty_print
 # my_tree.postorder { |n| print "#{n.value}, " }
 # print "\n\n"
 
-my_tree.height 8
+my_tree.height 1
+my_tree.depth_ 1
