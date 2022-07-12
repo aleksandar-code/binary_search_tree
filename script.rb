@@ -216,6 +216,24 @@ class Tree
     end
   end
 
+  def height(value, root = false, found = false, height = 0)
+    root = @root if root == false
+    
+    if !(root.nil?) && root.value == value 
+      found = true
+    end 
+
+      return puts "height: #{height}" if root.nil? || found == true
+
+    if root.value < value
+      height += 1
+      height(value, root.right, found, height) if found == false
+    elsif root.value > value
+      height += 1
+      height(value, root.left, found, height) if found == false
+    end
+
+  end
 
 end
 
@@ -224,5 +242,12 @@ my_tree.build_tree
 my_tree.pretty_print
 
 
+# print "Inorder\n"
+# my_tree.inorder { |n| print "#{n.value}, " }
+# print "\nPreorder\n"
+# my_tree.preorder { |n| print "#{n.value}, " }
+# print "\nPostorder\n"
+# my_tree.postorder { |n| print "#{n.value}, " }
+# print "\n\n"
 
-p my_tree.postorder { |n| print "#{n.value}, " }
+my_tree.height 11
