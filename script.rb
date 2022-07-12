@@ -235,7 +235,9 @@ class Tree
 
   end
 
-  def height
+  def height(value)
+    # define height of this tree/subtree
+    
   end
 
 end
