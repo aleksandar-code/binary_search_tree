@@ -216,23 +216,26 @@ class Tree
     end
   end
 
-  def height(value, root = false, found = false, height = 0)
+  def depth(value, root = false, found = false, depth = 0)
     root = @root if root == false
     
     if !(root.nil?) && root.value == value 
       found = true
     end 
 
-      return puts "height: #{height}" if root.nil? || found == true
+      return puts "depth: #{height}" if root.nil? || found == true
 
     if root.value < value
-      height += 1
-      height(value, root.right, found, height) if found == false
+      depth += 1
+      depth(value, root.right, found, depth) if found == false
     elsif root.value > value
-      height += 1
-      height(value, root.left, found, height) if found == false
+      depth += 1
+      depth(value, root.left, found, depth) if found == false
     end
 
+  end
+
+  def height
   end
 
 end
@@ -250,4 +253,4 @@ my_tree.pretty_print
 # my_tree.postorder { |n| print "#{n.value}, " }
 # print "\n\n"
 
-my_tree.height 11
+my_tree.depth 11
