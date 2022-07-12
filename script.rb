@@ -235,26 +235,43 @@ class Tree
 
   end
 
-  def height(value, root = false, found = false, height = 0)
-    # define height of this tree/subtree
-
+  def height(value, root = false, found = false, height_left = 0, height_right = 0)
     root = @root if root == false
     if !(root.nil?) && root.value == value 
       found = true
-      return puts "height: 0" if root.left.nil? && root.right.nil?
-      until (root.left.nil? && root.right.nil?)
-        
+      return puts "height of #{value}: 0" if root.left.nil? && root.right.nil?
+      if !(root.left.nil? && root.right.nil?)
+        current_root_left = root 
+        until (current_root_left.left.nil? && current_root_left.right.nil?)
+          current_root_left = current_root_left.left
+          height_left += 1
+        end
+        current_root_right = root 
+        until (current_root_right.left.nil? && current_root_right.right.nil?)
+          current_root_right = current_root_right.right
+          height_right += 1
+        end
+      end
+      if (current_root_left.left.nil? && current_root_left.right.nil?)
+        if height_left > height_right
+          height = height_left
+        elsif height_left < height_right
+          height = height_right
+        else
+          height = height_right
+        end
+        return puts "height of #{value}: #{height}"
       end
     end 
 
     if root.nil? || found == true && !(root.left.nil? && root.right.nil?)
-      return puts "height: #{height}"
+      return puts "height of #{value}: #{height}"
     end
 
     if root.value < value
-      height(value, root.right, found, height) if found == false
+      height(value, root.right, found) if found == false
     elsif root.value > value
-      height(value, root.left, found, height) if found == false
+      height(value, root.left, found) if found == false
     end
 
   end
@@ -274,4 +291,4 @@ my_tree.pretty_print
 # my_tree.postorder { |n| print "#{n.value}, " }
 # print "\n\n"
 
-my_tree.height 12
+my_tree.height 8
