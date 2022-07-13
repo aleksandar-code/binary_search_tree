@@ -236,6 +236,7 @@ class Tree
   end
 
   def height(value, root = false, found = false, height_left = 0, height_right = 0)
+    binding.pry
     root = @root if root == false
     if !(root.nil?) && root.value == value 
       found = true
@@ -245,17 +246,18 @@ class Tree
       end
       if !(root.left.nil? && root.right.nil?)
         current_root_left = root 
-        until (current_root_left.left.nil? && current_root_left.right.nil?)
-          current_root_left = current_root_left.left
+        until (current_root_left.left.nil?)
+          current_root_left = current_root_left.left 
           height_left += 1
         end
         current_root_right = root 
-        until (current_root_right.left.nil? && current_root_right.right.nil?)
+        until (current_root_right.right.nil?)
           current_root_right = current_root_right.right
           height_right += 1
+          height = true
         end
       end
-      if (current_root_left.left.nil? && current_root_left.right.nil?)
+      if (height == true)
         if height_left > height_right
           height = height_left
         elsif height_left < height_right
@@ -285,7 +287,7 @@ class Tree
     left_tree = @root.left if left_tree == false
     right_tree = @root.right if right_tree == false
     
-    
+    binding.pry
     left = height(left_tree.value)
     right = height(right_tree.value)
     
@@ -326,9 +328,11 @@ my_tree = Tree.new([15,14,13,12,11,10,9,8,7,6,5,4,3,2,1])
 my_tree.build_tree
 my_tree.pretty_print
 
-my_tree.balanced?
 my_tree.delete 8
 my_tree.delete 12
+
+my_tree.balanced?
+
 my_tree.pretty_print 
 my_tree.rebalance
 my_tree.pretty_print 
