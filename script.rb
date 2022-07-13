@@ -277,11 +277,14 @@ class Tree
   end
 
   def balanced?
+    
     if right > left && right <= left + 1 || left > right && left <= right + 1 || left == right 
-      puts 'balanced'
+      return puts 'balanced'
     else 
-      puts "not balanced"
+      return puts "not balanced"
     end 
+
+    # count number of nodes inside the tree @root
   end
 
 
