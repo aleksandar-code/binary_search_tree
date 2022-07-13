@@ -276,6 +276,11 @@ class Tree
 
   end
 
+  def balanced?
+  
+  end
+
+
 end
 
 my_tree = Tree.new([15,14,13,12,11,10,9,8,7,6,5,4,3,2,1])
