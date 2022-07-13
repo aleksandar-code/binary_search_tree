@@ -75,6 +75,7 @@ class Tree
 # 3. the node has 2 child
   def delete(value, root = nil, deleted = false, not_found = false, current_root = nil)
     return nil if deleted || not_found
+    return nil if !(@array.include?(value))
     root = @root if root.nil?
     if root.value < value 
       delete(value, root.right, deleted, not_found) if deleted == false
@@ -128,6 +129,7 @@ class Tree
         end
       end
     end 
+    
     not_found = true if root.nil?
     delete(value, root, deleted, not_found, current_root)
   end
@@ -310,6 +312,7 @@ class Tree
   def rebalance(array = [], current_root = false)
     if current_root.nil?
       build_tree(array)
+      @array = array
       return
     end
     current_root = @root if current_root == false
