@@ -239,7 +239,10 @@ class Tree
     root = @root if root == false
     if !(root.nil?) && root.value == value 
       found = true
-      return puts "height of #{value}: 0" if root.left.nil? && root.right.nil?
+      if root.left.nil? && root.right.nil?
+        puts "height of #{value}: 0" 
+        return 0 
+      end
       if !(root.left.nil? && root.right.nil?)
         current_root_left = root 
         until (current_root_left.left.nil? && current_root_left.right.nil?)
@@ -278,23 +281,47 @@ class Tree
 
   end
 
-  def balanced?(root = nil, left_tree = false, right_tree = false, left = 0, right = 0)
-    binding.pry
-
+  def balanced?(left_tree = false, right_tree = false, balanced = false, not_balanced = false)
     left_tree = @root.left if left_tree == false
     right_tree = @root.right if right_tree == false
+    
     
     left = height(left_tree.value)
     right = height(right_tree.value)
     
     if right > left && right <= left + 1 || left > right && left <= right + 1 || left == right 
-      return puts 'balanced'
+      balanced = true
     else 
-      return puts "not balanced"
+      not_balanced = true
     end 
-
+    
+    balanced?(left_tree.left, left_tree.right, balanced, not_balanced) if !(left_tree.left.nil?) && !(left_tree.right.nil?)
+    
+    balanced?(right_tree.left, right_tree.right , balanced, not_balanced) if !(right_tree.left.nil?) && !(right_tree.right.nil?)
+   
+    if not_balanced == false && balanced == true
+      return puts "balanced" 
+    else
+      return puts "not balanced"
+    end
   end
 
+  def rebalance
+    if current_root.nil? && block_given?
+      return 
+    elsif current_root.nil? && !(block_given?)
+      return array
+    end
+    current_root = @root if current_root == false
+    inorder(array, current_root.left, &block)
+    if block_given?
+      yield(current_root)
+    else
+      array << current_root.value
+    end
+    
+    inorder(array, current_root.right, &block)
+  end
 
 end
 
