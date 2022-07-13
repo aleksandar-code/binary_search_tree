@@ -327,14 +327,26 @@ class Tree
 end
 
 my_tree = Tree.new((Array.new(15) { rand(1..100) }))
+
 my_tree.build_tree
+
 my_tree.pretty_print
 
 my_tree.delete 8
 my_tree.delete 12
 
-my_tree.balanced?
+my_tree.balanced? 
 
+my_tree.rebalance
+my_tree.insert(rand(100..1000))
+my_tree.insert(rand(100..1000))
+my_tree.insert(rand(100..1000))
+my_tree.insert(rand(100..1000))
+my_tree.insert(rand(100..1000))
+my_tree.insert(rand(100..1000))
+my_tree.insert(rand(100..1000))
+my_tree.insert(rand(100..1000))
 my_tree.pretty_print 
+my_tree.balanced? 
 my_tree.rebalance
 my_tree.pretty_print 
