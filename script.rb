@@ -28,10 +28,10 @@ class Tree
     @root = root
   end
 
-  def build_tree(array = [], start_arr = 0, end_arr = 0, count = 0)
-    # binding.pry
+  def build_tree(array = nil, start_arr = 0, end_arr = 0, count = 0)
+    
     return nil if start_arr > end_arr 
-    array = @array.uniq.sort if count == 0
+    array = @array.uniq.sort if count == 0 && array.nil?
     count += 1
     start_arr = 0
     end_arr = array.length - 1
@@ -306,21 +306,18 @@ class Tree
     end
   end
 
-  def rebalance
-    if current_root.nil? && block_given?
-      return 
-    elsif current_root.nil? && !(block_given?)
-      return array
+  def rebalance(array = [], current_root = false)
+    if current_root.nil?
+      build_tree(array)
+      return
     end
     current_root = @root if current_root == false
-    inorder(array, current_root.left, &block)
-    if block_given?
-      yield(current_root)
-    else
+
+      rebalance(array, current_root.left)
       array << current_root.value
-    end
+      rebalance(array, current_root.right)
+
     
-    inorder(array, current_root.right, &block)
   end
 
 end
@@ -329,4 +326,9 @@ my_tree = Tree.new([15,14,13,12,11,10,9,8,7,6,5,4,3,2,1])
 my_tree.build_tree
 my_tree.pretty_print
 
-my_tree.balanced? 
+my_tree.balanced?
+my_tree.delete 8
+my_tree.delete 12
+my_tree.pretty_print 
+my_tree.rebalance
+my_tree.pretty_print 
