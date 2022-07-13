@@ -236,7 +236,7 @@ class Tree
   end
 
   def height(value, root = false, found = false, height_left = 0, height_right = 0)
-    binding.pry
+
     root = @root if root == false
     if !(root.nil?) && root.value == value 
       found = true
@@ -286,8 +286,7 @@ class Tree
   def balanced?(left_tree = false, right_tree = false, balanced = false, not_balanced = false)
     left_tree = @root.left if left_tree == false
     right_tree = @root.right if right_tree == false
-    
-    binding.pry
+
     left = height(left_tree.value)
     right = height(right_tree.value)
     
@@ -324,7 +323,7 @@ class Tree
 
 end
 
-my_tree = Tree.new([15,14,13,12,11,10,9,8,7,6,5,4,3,2,1])
+my_tree = Tree.new((Array.new(15) { rand(1..100) }))
 my_tree.build_tree
 my_tree.pretty_print
 
