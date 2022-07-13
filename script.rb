@@ -260,12 +260,14 @@ class Tree
         else
           height = height_right
         end
-        return puts "height of #{value}: #{height}"
+        puts "height of #{value}: #{height}"
+        return height
       end
     end 
 
     if root.nil? || found == true && !(root.left.nil? && root.right.nil?)
-      return puts "height of #{value}: #{height}"
+      puts "height of #{value}: #{height}"
+      return height
     end
 
     if root.value < value
@@ -276,7 +278,14 @@ class Tree
 
   end
 
-  def balanced?
+  def balanced?(root = nil, left_tree = false, right_tree = false, left = 0, right = 0)
+    binding.pry
+
+    left_tree = @root.left if left_tree == false
+    right_tree = @root.right if right_tree == false
+    
+    left = height(left_tree.value)
+    right = height(right_tree.value)
     
     if right > left && right <= left + 1 || left > right && left <= right + 1 || left == right 
       return puts 'balanced'
@@ -284,7 +293,6 @@ class Tree
       return puts "not balanced"
     end 
 
-    # count number of nodes inside the tree @root
   end
 
 
@@ -294,14 +302,4 @@ my_tree = Tree.new([15,14,13,12,11,10,9,8,7,6,5,4,3,2,1])
 my_tree.build_tree
 my_tree.pretty_print
 
-
-# print "Inorder\n"
-# my_tree.inorder { |n| print "#{n.value}, " }
-# print "\nPreorder\n"
-# my_tree.preorder { |n| print "#{n.value}, " }
-# print "\nPostorder\n"
-# my_tree.postorder { |n| print "#{n.value}, " }
-# print "\n\n"
-
-my_tree.height 1
-my_tree.depth_ 1
+my_tree.balanced? 
