@@ -303,7 +303,7 @@ class Tree
     
     balanced?(right_tree.left, right_tree.right , balanced, not_balanced) if !(right_tree.left.nil?) && !(right_tree.right.nil?)
    
-    if not_balanced == false && balanced == true &&
+    if not_balanced == false && balanced == true 
       return puts "balanced" 
     else
       return puts "not balanced"
