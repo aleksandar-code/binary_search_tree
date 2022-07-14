@@ -306,25 +306,28 @@ class Tree
 end
 array = (Array.new(5) { rand(1..100) })
 my_tree = Tree.new(array)
+
+order_printing = lambda do 
+  puts "level order"
+  p my_tree.level_order
+  puts "preorder"
+  p my_tree.preorder
+  puts "postorder"
+  p my_tree.postorder
+  puts "inorder"
+  p my_tree.inorder
+end
+
+print_balanced = lambda do 
+  my_tree.pretty_print
+  my_tree.balanced?
+end
+
 my_tree.build_tree
-my_tree.pretty_print
-my_tree.balanced?
-puts "level order"
-p my_tree.level_order
-puts "preorder"
-p my_tree.preorder
-puts "postorder"
-p my_tree.postorder
-puts "inorder"
-p my_tree.inorder
-my_tree.insert(rand(100..150))
-my_tree.insert(rand(100..150))
-my_tree.insert(rand(100..150))
-my_tree.insert(rand(100..150))
-my_tree.insert(rand(100..150))
-my_tree.insert(rand(100..150))
-my_tree.pretty_print
-my_tree.balanced?
+print_balanced.call
+order_printing.call
+5.times {my_tree.insert(rand(100..150))}
+print_balanced.call
 my_tree.rebalance
-my_tree.pretty_print
-my_tree.balanced?
+print_balanced.call
+order_printing.call
