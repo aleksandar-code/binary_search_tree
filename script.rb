@@ -1,6 +1,5 @@
 # frozen_string_literal: true
-require 'pry-byebug'
-# Node class
+
 class Node
   def initialize(value = nil, left = nil, right = nil)
     @value = value
@@ -10,14 +9,6 @@ class Node
   attr_accessor :value, :left, :right
 end
 
-# Tree class
-# build_tree method algorithm:
-# 1: Initialize start = 0, end = length of the array – 1
-# 2: mid = (start+end)/2
-# 3: Create a tree node with mid as root (lets call it A).
-# 4: Recursively do following steps:
-# 5: Calculate mid of left subarray and make it root of left subtree of A.
-# 6: Calculate mid of right subarray and make it root of right subtree of A
 class Tree
   def initialize(array = [])
     @array = array
@@ -47,9 +38,7 @@ class Tree
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.value}"
     pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
   end
-# insert method 
-# i want to take the root and do a depth first search compare current_root and value
-# if current_root > value then value compare to the left child
+
   def insert(value, root = nil, inserted = false)
     root = @root if root == nil 
     return nil if inserted
@@ -69,10 +58,7 @@ class Tree
     end
     insert(value, root, inserted)
   end
-# There are 3 cases 
-# 1. We delete a leaf in the tree
-# 2. the node has 1 child 
-# 3. the node has 2 child
+
   def delete(value, root = nil, deleted = false, not_found = false, current_root = nil)
     return nil if deleted || not_found
     return nil if !(@array.include?(value))
@@ -180,7 +166,6 @@ class Tree
     else
       array << current_root.value
     end
-    
     preorder(array, current_root.left, &block)
     preorder(array, current_root.right, &block)
   end
@@ -198,7 +183,6 @@ class Tree
     else
       array << current_root.value
     end
-    
     inorder(array, current_root.right, &block)
   end
 
@@ -234,11 +218,9 @@ class Tree
       depth += 1
       depth_(value, root.left, found, depth) if found == false
     end
-
   end
 
   def height(value, root = false, found = false, height_left = 0, height_right = 0)
-
     root = @root if root == false
     if !(root.nil?) && root.value == value 
       found = true
@@ -266,13 +248,11 @@ class Tree
         else
           height = height_right
         end
-        
         return height
       end
     end 
 
     if root.nil? || found == true && !(root.left.nil? && root.right.nil?)
-     
       return height
     end
 
@@ -281,16 +261,13 @@ class Tree
     elsif root.value > value
       height(value, root.left, found) if found == false
     end
-
   end
 
   def balanced?(left_tree = false, right_tree = false, balanced = false, not_balanced = false, count = 0, count2 = 0)
     left_tree = @root.left if left_tree == false
     right_tree = @root.right if right_tree == false
-
     left = height(left_tree.value)
     right = height(right_tree.value)
-
     if !(right.nil? && left.nil?)  
       if right > left && right <= left + 1 || left > right && left <= right + 1 || left == right 
         balanced = true
@@ -300,8 +277,7 @@ class Tree
       not_balanced = true
     end
     if !(right_tree.left.nil?) && !(right_tree.right.nil?) &&  !(left_tree.left.nil?) && !(left_tree.right.nil?)
-      if not_balanced == false && balanced == true 
-      
+      if not_balanced == false && balanced == true  
         count += 1
         return puts "balanced" if count == 1
         return
@@ -311,8 +287,7 @@ class Tree
         return
       end
     end
-    balanced?(left_tree.left, left_tree.right, balanced, not_balanced, count, count2) if !(left_tree.left.nil?) && !(left_tree.right.nil?)
-    
+    balanced?(left_tree.left, left_tree.right, balanced, not_balanced, count, count2) if !(left_tree.left.nil?) && !(left_tree.right.nil?)  
     balanced?(right_tree.left, right_tree.right , balanced, not_balanced, count, count2) if !(right_tree.left.nil?) && !(right_tree.right.nil?)
   end
 
@@ -327,23 +302,16 @@ class Tree
     array << current_root.value
     rebalance(array, current_root.right)
   end
-
- 
 end
-
-my_tree = Tree.new((Array.new(15) { rand(1..100) }))
+array = (Array.new(15) { rand(1..100) })
+my_tree = Tree.new(array)
 
 my_tree.build_tree
 my_tree.pretty_print
-my_tree.delete 8
-my_tree.delete 12
+my_tree.delete (array.sample)
+my_tree.delete (array.sample)
 my_tree.balanced?
 my_tree.rebalance
-my_tree.insert(rand(100..1000))
-my_tree.insert(rand(100..1000))
-my_tree.insert(rand(100..1000))
-my_tree.insert(rand(100..1000))
-my_tree.insert(rand(100..1000))
 my_tree.insert(rand(100..1000))
 my_tree.insert(rand(100..1000))
 my_tree.insert(rand(100..1000))
