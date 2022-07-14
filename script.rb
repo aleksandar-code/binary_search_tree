@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require 'pry-byebug'
 class Node
   def initialize(value = nil, left = nil, right = nil)
     @value = value
@@ -17,6 +17,10 @@ class Tree
 
   def root(root)
     @root = root
+  end
+
+  def array(array)
+    @array = array
   end
 
   def build_tree(array = nil, start_arr = 0, end_arr = 0, count = 0)
@@ -150,7 +154,6 @@ class Tree
       end
       queue = queue[1..]
     end
-    print "\n\n"
     return array if !(block_given?) 
   end
 
@@ -263,7 +266,7 @@ class Tree
     end
   end
 
-  def balanced?(left_tree = false, right_tree = false, balanced = false, not_balanced = false, count = 0, count2 = 0)
+  def balanced?(left_tree = false, right_tree = false, balanced = false, not_balanced = false)
     left_tree = @root.left if left_tree == false
     right_tree = @root.right if right_tree == false
     left = height(left_tree.value)
@@ -272,25 +275,23 @@ class Tree
       if right > left && right <= left + 1 || left > right && left <= right + 1 || left == right 
         balanced = true
       end 
-
-    elsif !(right > left && right <= left + 1 || left > right && left <= right + 1 || left == right)
-      not_balanced = true
-    end
-    if !(right_tree.left.nil?) && !(right_tree.right.nil?) &&  !(left_tree.left.nil?) && !(left_tree.right.nil?)
-      if not_balanced == false && balanced == true  
-        count += 1
-        return puts "balanced" if count == 1
-        return
-      else
-        count2 += 1
-        return puts "not balanced" if count2 == 1
-        return
+      if !(right > left && right <= left + 1 || left > right && left <= right + 1 || left == right)
+        not_balanced = true
       end
     end
-    balanced?(left_tree.left, left_tree.right, balanced, not_balanced, count, count2) if !(left_tree.left.nil?) && !(left_tree.right.nil?)  
-    balanced?(right_tree.left, right_tree.right , balanced, not_balanced, count, count2) if !(right_tree.left.nil?) && !(right_tree.right.nil?)
-  end
+    if !((right_tree.left.nil?) && (right_tree.right.nil?)) && !((left_tree.left.nil?) && (left_tree.right.nil?))
+      if not_balanced == false && balanced == true  
+        
+        return puts "balanced" 
 
+      else
+        
+        return puts "not balanced" 
+
+      end
+    end
+  end
+  
   def rebalance(array = [], current_root = false)
     if current_root.nil?
       build_tree(array)
@@ -303,18 +304,25 @@ class Tree
     rebalance(array, current_root.right)
   end
 end
-array = (Array.new(15) { rand(1..100) })
+array = (Array.new(5) { rand(1..100) })
 my_tree = Tree.new(array)
-
 my_tree.build_tree
 my_tree.pretty_print
-my_tree.delete (array.sample)
-my_tree.delete (array.sample)
 my_tree.balanced?
-my_tree.rebalance
-my_tree.insert(rand(100..1000))
-my_tree.insert(rand(100..1000))
-my_tree.insert(rand(100..1000))
+puts "level order"
+p my_tree.level_order
+puts "preorder"
+p my_tree.preorder
+puts "postorder"
+p my_tree.postorder
+puts "inorder"
+p my_tree.inorder
+my_tree.insert(rand(100..150))
+my_tree.insert(rand(100..150))
+my_tree.insert(rand(100..150))
+my_tree.insert(rand(100..150))
+my_tree.insert(rand(100..150))
+my_tree.insert(rand(100..150))
 my_tree.pretty_print
 my_tree.balanced?
 my_tree.rebalance
