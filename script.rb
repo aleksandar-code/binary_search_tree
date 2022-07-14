@@ -243,7 +243,6 @@ class Tree
     if !(root.nil?) && root.value == value 
       found = true
       if root.left.nil? && root.right.nil?
-        puts "height of #{value}: 0" 
         return 0 
       end
       if !(root.left.nil? && root.right.nil?)
@@ -267,13 +266,13 @@ class Tree
         else
           height = height_right
         end
-        puts "height of #{value}: #{height}"
+        
         return height
       end
     end 
 
     if root.nil? || found == true && !(root.left.nil? && root.right.nil?)
-      puts "height of #{value}: #{height}"
+     
       return height
     end
 
@@ -291,18 +290,20 @@ class Tree
 
     left = height(left_tree.value)
     right = height(right_tree.value)
-    
-    if right > left && right <= left + 1 || left > right && left <= right + 1 || left == right 
-      balanced = true
-    else 
+
+    if !(right.nil? && left.nil?)  
+      if right > left && right <= left + 1 || left > right && left <= right + 1 || left == right 
+        balanced = true
+      end 
+
+    elsif !(right > left && right <= left + 1 || left > right && left <= right + 1 || left == right)
       not_balanced = true
-    end 
-    
+    end
     balanced?(left_tree.left, left_tree.right, balanced, not_balanced) if !(left_tree.left.nil?) && !(left_tree.right.nil?)
     
     balanced?(right_tree.left, right_tree.right , balanced, not_balanced) if !(right_tree.left.nil?) && !(right_tree.right.nil?)
    
-    if not_balanced == false && balanced == true
+    if not_balanced == false && balanced == true &&
       return puts "balanced" 
     else
       return puts "not balanced"
@@ -316,27 +317,19 @@ class Tree
       return
     end
     current_root = @root if current_root == false
-
-      rebalance(array, current_root.left)
-      array << current_root.value
-      rebalance(array, current_root.right)
-
-    
+    rebalance(array, current_root.left)
+    array << current_root.value
+    rebalance(array, current_root.right)
   end
-
 end
 
 my_tree = Tree.new((Array.new(15) { rand(1..100) }))
 
 my_tree.build_tree
-
 my_tree.pretty_print
-
 my_tree.delete 8
 my_tree.delete 12
-
-my_tree.balanced? 
-
+my_tree.balanced?
 my_tree.rebalance
 my_tree.insert(rand(100..1000))
 my_tree.insert(rand(100..1000))
@@ -346,7 +339,8 @@ my_tree.insert(rand(100..1000))
 my_tree.insert(rand(100..1000))
 my_tree.insert(rand(100..1000))
 my_tree.insert(rand(100..1000))
-my_tree.pretty_print 
-my_tree.balanced? 
+my_tree.pretty_print
+my_tree.balanced?
 my_tree.rebalance
-my_tree.pretty_print 
+my_tree.pretty_print
+my_tree.balanced?
