@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'pry-byebug'
 class Node
   def initialize(value = nil, left = nil, right = nil)
     @value = value
@@ -307,18 +306,18 @@ end
 array = (Array.new(5) { rand(1..100) })
 my_tree = Tree.new(array)
 
-order_printing = lambda do 
-  puts "level order"
+order_printing = lambda do
+  puts 'level order'
   p my_tree.level_order
-  puts "preorder"
+  puts 'preorder'
   p my_tree.preorder
-  puts "postorder"
+  puts 'postorder'
   p my_tree.postorder
-  puts "inorder"
+  puts 'inorder'
   p my_tree.inorder
 end
 
-print_balanced = lambda do 
+print_balanced = lambda do
   my_tree.pretty_print
   my_tree.balanced?
 end
@@ -326,7 +325,7 @@ end
 my_tree.build_tree
 print_balanced.call
 order_printing.call
-5.times {my_tree.insert(rand(100..150))}
+5.times { my_tree.insert(rand(100..150)) }
 print_balanced.call
 my_tree.rebalance
 print_balanced.call
