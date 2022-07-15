@@ -278,19 +278,16 @@ class Tree
         not_balanced = true
       end
     end
-    if !((right_tree.left.nil?) && (right_tree.right.nil?)) && !((left_tree.left.nil?) && (left_tree.right.nil?))
-      if not_balanced == false && balanced == true  
-        
-        return puts "balanced" 
-
+    unless (right_tree.left.nil? && right_tree.right.nil?) && (left_tree.left.nil? && left_tree.right.nil?)
+      if not_balanced == false && balanced == true
+        puts 'balanced'
       else
-        
-        return puts "not balanced" 
-
+        puts 'not balanced'
       end
+      return
     end
   end
-  
+
   def rebalance(array = [], current_root = false)
     if current_root.nil?
       build_tree(array)
