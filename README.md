@@ -1,2 +1,2 @@
 # Binary-Search-Tree
-This is a binary search tree algorithm
+This is a Binary search tree algorithm
